@@ -1,0 +1,27 @@
+create table RS_TARIFFS
+(
+  tar_id            NUMBER not null,
+  tar_rt_id         NUMBER not null,
+  tar_zone_num_from NUMBER not null,
+  tar_zone_num_to   NUMBER not null,
+  tar_tariff        NUMBER
+)
+;
+comment on table RS_TARIFFS
+  is 'Тарифы';
+comment on column RS_TARIFFS.tar_id
+  is 'Идентификатор (суррогатный)';
+comment on column RS_TARIFFS.tar_rt_id
+  is 'Ссылка на идентификатор варианта маршрута';
+comment on column RS_TARIFFS.tar_zone_num_from
+  is 'Номер зоны от';
+comment on column RS_TARIFFS.tar_zone_num_to
+  is 'Номер зоны до';
+comment on column RS_TARIFFS.tar_tariff
+  is 'Значение тарифа (в копейках)';
+alter table RS_TARIFFS
+  add constraint RS_TAR_PK primary key (TAR_ID);
+alter table RS_TARIFFS
+  add constraint RS_TAR_RT_ID_FK foreign key (TAR_RT_ID)
+  references RS_ROUTES (RT_ID);
+

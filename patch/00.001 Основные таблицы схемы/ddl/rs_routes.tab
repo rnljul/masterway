@@ -1,0 +1,42 @@
+create table RS_ROUTES
+(
+  rt_id             NUMBER not null,
+  rt_way_id         NUMBER not null,
+  rt_trc_id         NUMBER not null,
+  rt_date_start     DATE,
+  rt_date_stop      DATE,
+  rt_social_yn      CHAR(1) default 'Y' not null,
+  rt_repay_sec      NUMBER(5) default 0 not null,
+  rt_repay_ext_sec  NUMBER(5) default 0 not null,
+  rt_baggage_tariff NUMBER
+)
+;
+comment on table RS_ROUTES
+  is 'Варианты маршрутов (связывает варианты пути с транспортной компанией и тарифами';
+comment on column RS_ROUTES.rt_id
+  is 'Идентификатор (суррогатный)';
+comment on column RS_ROUTES.rt_way_id
+  is 'Ссылка на идентификатор варианта пути';
+comment on column RS_ROUTES.rt_trc_id
+  is 'Ссылка на идентификатор транспортной компании';
+comment on column RS_ROUTES.rt_date_start
+  is 'Дата начала действия варианта маршрута (если пусто, то вариант "грязный")';
+comment on column RS_ROUTES.rt_date_stop
+  is 'Дата окончания действия варианта маршрута';
+comment on column RS_ROUTES.rt_social_yn
+  is 'Возможность обслуживания социальных карт';
+comment on column RS_ROUTES.rt_repay_sec
+  is 'Период между оплатами';
+comment on column RS_ROUTES.rt_repay_ext_sec
+  is 'Период между оплатами';
+comment on column RS_ROUTES.rt_baggage_tariff
+  is 'Багажный тариф (в копейках)';
+alter table RS_ROUTES
+  add constraint RS_RT_PK primary key (RT_ID);
+alter table RS_ROUTES
+  add constraint RS_RT_WAY_ID_FK foreign key (RT_WAY_ID)
+  references RS_WAYS (WAY_ID);
+alter table RS_ROUTES
+  add constraint RS_RT_SOCIAL_YN_CK
+  check (RT_SOCIAL_YN IN ('Y', 'N'));
+

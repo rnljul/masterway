@@ -1,0 +1,32 @@
+create table RS_WAYS
+(
+  way_id        NUMBER not null,
+  way_psp_id    NUMBER not null,
+  way_code      VARCHAR2(10) not null,
+  way_desc      VARCHAR2(100),
+  way_circle_yn CHAR(1) default 'N' not null
+)
+;
+comment on table RS_WAYS
+  is 'Вариант пути';
+comment on column RS_WAYS.way_id
+  is 'Идентификатор (суррогатный)';
+comment on column RS_WAYS.way_psp_id
+  is 'Ссылка на ID паспорта';
+comment on column RS_WAYS.way_code
+  is 'Код пути (в рамках паспорта). Например, 1F, 1R, 10F';
+comment on column RS_WAYS.way_desc
+  is 'Описание варианта пути';
+comment on column RS_WAYS.way_circle_yn
+  is 'Признак кольцевого пути (Y - кольцевой, N -  обычный)';
+alter table RS_WAYS
+  add constraint RS_WAYS_PK primary key (WAY_ID);
+alter table RS_WAYS
+  add constraint RS_WAYS_COMP_UK_01 unique (WAY_PSP_ID, WAY_CODE);
+alter table RS_WAYS
+  add constraint RS_WAYS_PSP_ID foreign key (WAY_PSP_ID)
+  references RS_PASSPORTS (PSP_ID);
+alter table RS_WAYS
+  add constraint RS_WAYS_CYRCLE_YN_CK
+  check (WAY_CIRCLE_YN IN ('Y', 'N'));
+

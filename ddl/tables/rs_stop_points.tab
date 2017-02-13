@@ -1,0 +1,41 @@
+create table RS_STOP_POINTS
+(
+  spt_id           NUMBER not null,
+  spt_st_id        NUMBER not null,
+  spt_registry_num VARCHAR2(10),
+  spt_latitude     NUMBER(9,6),
+  spt_longitude    NUMBER(9,6),
+  spt_radius       NUMBER,
+  spt_active_yn    CHAR(1) default 'Y' not null,
+  spt_order_num    NUMBER not null
+)
+;
+comment on table RS_STOP_POINTS
+  is 'Остановочные пункты';
+comment on column RS_STOP_POINTS.spt_id
+  is 'Идентификатор (суррогатный)';
+comment on column RS_STOP_POINTS.spt_st_id
+  is 'Ссылка на системный идентификатор остановки';
+comment on column RS_STOP_POINTS.spt_registry_num
+  is 'Номер пункта по реестру';
+comment on column RS_STOP_POINTS.spt_latitude
+  is 'Координаты остановки широта';
+comment on column RS_STOP_POINTS.spt_longitude
+  is 'Координаты остановки долгота';
+comment on column RS_STOP_POINTS.spt_radius
+  is 'Координаты остановки погрешность';
+comment on column RS_STOP_POINTS.spt_active_yn
+  is 'Статус  (''DELETED'' - удалено, ''BLOCKED'' - заблокировано, ''ACTIVE'' - активно)';
+comment on column RS_STOP_POINTS.spt_order_num
+  is 'Порядковый номер пункта в пределах остановки';
+alter table RS_STOP_POINTS
+  add constraint RS_SPT_PK primary key (SPT_ID);
+alter table RS_STOP_POINTS
+  add constraint RS_SPT_COMP_UK_01 unique (SPT_ST_ID, SPT_ORDER_NUM);
+alter table RS_STOP_POINTS
+  add constraint RS_SPT_ST_ID foreign key (SPT_ST_ID)
+  references RS_STOPS (ST_ID);
+alter table RS_STOP_POINTS
+  add constraint RS_SPT_ACTIVE_YN_CK
+  check (SPT_ACTIVE_YN IN ('Y', 'N'));
+

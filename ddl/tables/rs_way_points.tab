@@ -1,0 +1,35 @@
+create table RS_WAY_POINTS
+(
+  wpt_id        NUMBER not null,
+  wpt_way_id    NUMBER not null,
+  wpt_order_num NUMBER not null,
+  wpt_spt_id    NUMBER not null,
+  wpt_distance  NUMBER,
+  wpt_zone_num  NUMBER not null
+)
+;
+comment on table RS_WAY_POINTS
+  is 'Остановки варианта пути';
+comment on column RS_WAY_POINTS.wpt_id
+  is 'Идентификатор (суррогатный)';
+comment on column RS_WAY_POINTS.wpt_way_id
+  is 'Ссылка на идентификатор варианта пути';
+comment on column RS_WAY_POINTS.wpt_order_num
+  is 'Порядковый номер остановки на варианте пути';
+comment on column RS_WAY_POINTS.wpt_spt_id
+  is 'Ссылка на идентификатр остановочного пункта';
+comment on column RS_WAY_POINTS.wpt_distance
+  is 'Расстояние до следующей остановки';
+comment on column RS_WAY_POINTS.wpt_zone_num
+  is 'Номер зоны в рамках варианта пути';
+alter table RS_WAY_POINTS
+  add constraint RS_WPT_PK primary key (WPT_ID);
+alter table RS_WAY_POINTS
+  add constraint RS_WPT_ORDER_NUM_UK unique (WPT_ORDER_NUM);
+alter table RS_WAY_POINTS
+  add constraint RS_WPT_SPT_ID_FK foreign key (WPT_SPT_ID)
+  references RS_STOP_POINTS (SPT_ID);
+alter table RS_WAY_POINTS
+  add constraint RS_WPT_WAY_ID foreign key (WPT_WAY_ID)
+  references RS_WAYS (WAY_ID);
+
