@@ -1,0 +1,18 @@
+group 'ru.fancytraffic.masterway'
+version '1.0.0'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+	compile group:'org.freemarker'   , name:'freemarker'             , version:'2.3.20'
+    compile group:'org.eclipse.jetty', name:'jetty-server'           , version:'9.3.0.M0'
+    compile group:'org.eclipse.jetty', name:'jetty-webapp'           , version:'9.3.0.M0'
+    compile group:'org.hibernate'    , name:'hibernate-core'         , version:'5.2.8.Final'
+    compile group:'org.hibernate'    , name:'hibernate-entitymanager', version:'5.2.8.Final'
+    testCompile group:'junit'        , name:'junit'                  , version:'4.11'
+    compile files('libs/ojdbc7.jar')
+}
